@@ -11,7 +11,7 @@ public class BMIActivity extends AppCompatActivity implements View.OnClickListen
     TextView height,weight;
     EditText et_height,et_weight,et_result;
     Button submit;
-    String getHeight,getWeight,result,getHeightInMeters,bmi;
+    String getheight,getweight,result,getHeightInMeters,bmi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +33,20 @@ public class BMIActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_compute:
-                if (et_height.getText().toString()!=null && et_height.getText().length()>0 &&
-                        et_weight.getText().toString()!=null && et_weight.getText().length()>0){
-                    getHeight=et_height.getText().toString();
-                    getHeightInMeters=Double.parseDouble(getHeight)/100+"";
+                BMIModel bmiModel=new BMIModel(getheight,getweight);
+                    bmiModel.setHeight(et_height.getText().toString());
+                    bmiModel.setWeight(et_weight.getText().toString());
+                    getheight=bmiModel.getHeight();
+                    getHeightInMeters=Double.parseDouble(getheight)/100+"";
                     //System.out.println(getHeightInMeters);
-                    getWeight=et_weight.getText().toString();
-                    //System.out.println(getWeight);
+                    getweight=bmiModel.getWeight();
+                    //System.out.println(getweight);
+                    //System.out.println(getheight);
 
-                    bmi=Double.parseDouble(getWeight)/((Double.parseDouble(getHeightInMeters))*(Double.parseDouble(getHeightInMeters)))+"";
+                    bmi=Double.parseDouble(getweight)/((Double.parseDouble(getHeightInMeters))*
+                            (Double.parseDouble(getHeightInMeters)))+"";
                     //System.out.println(bmi);
                     et_result.setText(bmi);
-                    et_height.setText("");
-                    et_weight.setText("");
                     if (Double.parseDouble(bmi)<18.5){
                         Toast.makeText(BMIActivity.this,"Underweight",Toast.LENGTH_LONG).show();
                     }
@@ -58,11 +59,7 @@ public class BMIActivity extends AppCompatActivity implements View.OnClickListen
                     else if (Double.parseDouble(bmi)>=30){
                         Toast.makeText(BMIActivity.this,"Obesity",Toast.LENGTH_LONG).show();
                     }
-
-                }
-
         }
     }
-
 
 }
